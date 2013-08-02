@@ -77,8 +77,19 @@ namespace nGantt
 
         public void AddGanttTask(GanttRow row, GanttTask task)
         {
+            if (task != null) task.ParentRow = row;
             if (task.Start < ganttChartData.MaxDate && task.End > ganttChartData.MinDate)
                 row.Tasks.Add(task);
+        }
+        
+        public void RemoveGanttTask(GanttRow row, GanttTask task)
+        {
+            if (task.ParentRow != null)
+            {
+                row = task.ParentRow;
+                if (task.Start < ganttChartData.MaxDate && task.End > ganttChartData.MinDate)
+                row.Tasks.Remove(task);
+            }
         }
 
         public TimeLine CreateTimeLine(PeriodSplitter.PeriodSplitter splitter, PeriodNameFormatter PeriodNameFormatter)
